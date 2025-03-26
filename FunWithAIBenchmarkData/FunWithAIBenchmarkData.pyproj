@@ -11,6 +11,8 @@
     <OutputPath>.</OutputPath>
     <Name>FunWithAIBenchmarkData</Name>
     <RootNamespace>FunWithAIBenchmarkData</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
+    <InterpreterId>Global|PythonCore|3.9</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,8 +26,20 @@
     <Compile Include="dataPackage\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="logo\image.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="mainPackage\main.py" />
     <Compile Include="mainPackage\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="logo\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="visualization\graphicfunction.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="visualization\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PDFPackage\PDFUtilities.py">
@@ -56,6 +70,9 @@
     <Folder Include="dataPackage\MMLU\data\" />
     <Folder Include="dataPackage\MMLU\results\" />
     <Folder Include="mainPackage\" />
+    <Folder Include="logoImage\" />
+    <Folder Include="logo\" />
+    <Folder Include="visualization\" />
     <Folder Include="PDFPackage\" />
     <Folder Include="readingLevelPackage\" />
     <Folder Include="utilitiesPackage\" />
@@ -118,6 +135,10 @@
     <Content Include="dataPackage\MMLU\data\us_foreign_policy_test.csv" />
     <Content Include="dataPackage\MMLU\data\virology_test.csv" />
     <Content Include="dataPackage\MMLU\data\world_religions_test.csv" />
+    <Content Include="logoImage\logoImage.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|PythonCore|3.9" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

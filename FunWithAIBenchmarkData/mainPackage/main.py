@@ -1,63 +1,72 @@
+﻿# File Name : main.py
+# Student Name: Zulqarnayan Hossain, Vishwaja Painjane, Leah Radcliffe
+# email:  hossaizn@mail.uc.edu, painjavv@mail.uc.edu, radclilr@mail.uc.edu
+# Assignment Number: Assignment 08
+# Due Date:   March 27, 2025
+# Course #/Section:   IS 4010 Section 001
+# Semester/Year:   Spring 2025
+# Brief Description of the assignment:  We produce visualization using the data in this project as well as produce the team logo as an output.
+
+# Brief Description of what this module does. We work with python packages and environments to create visualizations.
+# Citations: We used ChatGPT 40 model for this assignment.
+
+# Anything else that's relevant: N/A
+
 # main.py
 # Bill Nicholson
 # nicholdw@ucmail.uc.edu
+
+import random
+import pandas as pd
+import matplotlib.pyplot as plt
 
 from readingLevelPackage.readingLevel import Reading_Level
 from utilitiesPackage.utilities import *
 from utilitiesPackage.CSV_Utilities import *
 from PDFPackage.PDFUtilities import *
 
+from visualization.graphicfunction import plot_word_length_distribution
+from logo.image import display_logo
+
+
+def find_longest_word(text):
+    """Finds the longest word in a given string."""
+    words = text.split()
+    return max(words, key=len)
+
+def find_shortest_word(text):
+    """Finds the shortest word in a given string (excluding 1-letter noise)."""
+    words = [word for word in text.split() if len(word) > 1]
+    return min(words, key=len)
+
+def compute_word_lengths(text):
+    """Returns a list of lengths of all words in the text."""
+    words = text.split()
+    return [len(word) for word in words if word.isalpha()]
+
+
 if __name__ == "__main__":
-
-    CSV_Processor = MMLU_CSV_Processor("dataPackage/MMLU/data/", ["management_test.csv"])
+    # Step 1: Read CSV files
+    CSV_Processor = MMLU_CSV_Processor("dataPackage/MMLU/data/", ["management_test.csv", "college_medicine_test.csv"])
     questions = CSV_Processor.read_data()
-    print(len(questions), "questions read")
 
- 
-    myPDF = PDFUtilities()
-    myPDF.create_question_PDF("Management Test", "MMLU", questions)
-   
-    print("The first question:")
-    print(questions[0])
-    
+    # Step 2: Convert all prompts and answers to one big string
     text = convert_dictionaries_to_string(questions, ["prompt", "possible answers"])
-    #print("\ntext from dictionaries:", text[0:500])
 
-    #0. Append all the prompts into a big string - See utilities.convert_dictionaries_to_string()
-    
-    
-    #1. Perform reading level analysis on the big string and print the results to the console.
-    Reading_Level.compute_readability_indices("MMLU", text)
+    # Step 3: Extract and print longest and shortest words
+    longest = find_longest_word(text)
+    shortest = find_shortest_word(text)
 
-    #2. Process the big string to find the longest word
+    #print("Longest word:", longest, "| Length:", len(longest))
+    #print("Shortest word:", shortest, "| Length:", len(shortest))
 
+    # Step 4: Calculate word lengths and visualize
+    word_lengths = compute_word_lengths(text)
+    display_logo()
+    plot_word_length_distribution(word_lengths)
 
-    #3. Process the big string to find the most prevalent word
-    
-
-    #4. Use the VS debugger: set a breakpoint somewhere to pause the project when a prompt containing the word "PEST" is read from the original CSV file
-    
-
-    #5. Perform some data visualization on the text. Research Data Vis libraries and apply one.
-     
-
-    #6a. Write all the questions and possible answers (without the correct answer) to a text file. Use a CSV format and create a unique identifier field for each question.
-    #6b. Write the question identifier (see 6a, above) and the correct answer to another text file. Use a CSV format.
+    """
+    # Optional: Write questions to files (still works)
     questions_written = write_questions_to_text_files("MMLU", questions)
     print(questions_written, "questions written to the file.")
-    
-    """
-    # This code is commented out
-    #Reading_Level.test01()
-
-    text = "This is a sentence that we can use to test the reading level computations. "
-    reading_level_indices = Reading_Level.compute_readability_indices("Dummy Benchmark", text)
-    for key in reading_level_indices.keys():
-        print(key, ":", reading_level_indices[key])
-            
-    # A test with text at a higher reading level
-    text = "Birds, employing a combination of aerodynamic principles and specialized anatomical adaptations, achieve flight through the generation of lift, which counteracts the force of gravity."
-    reading_level_indices = Reading_Level.compute_readability_indices("Dummy Benchmark", text)
-    for key in reading_level_indices.keys():
-        print(key, ":", reading_level_indices[key])
     """
